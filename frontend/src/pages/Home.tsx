@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/redux/hooks";
 import { fetchUsers } from "../app/redux/thunk";
-import { logout } from "../app/redux/reducers/authSlice";
 import { Container } from "react-bootstrap";
 import Table from "../components/Table";
 

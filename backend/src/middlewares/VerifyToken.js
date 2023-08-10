@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
         }
 
         if (!user.status) {
-            return res.status(403).json({ error: "User account is inactive" });
+            return res.status(403).json({ error: "User account is blocked" });
         }
         next();
     } catch (err) {

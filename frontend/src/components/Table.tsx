@@ -80,7 +80,7 @@ const View = ({ users }: Props) => {
                             },
                             index
                         ) => (
-                            <tr key={index}>
+                            <tr key={_id}>
                                 <td>
                                     <input
                                         type="checkbox"

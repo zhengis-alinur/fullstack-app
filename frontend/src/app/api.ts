@@ -5,7 +5,13 @@ import { getCookie } from "./utils";
 const BASE_URL = "http://localhost:4000"
 
 export const fetchUsers = async () => {
-	return axios.get(`${BASE_URL}/users`);
+	return axios.get(`${BASE_URL}/users`, {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${getCookie('token')}`
+		},
+		withCredentials: true
+	});
 };
 
 export const login = async ({ email, password }: LoginProps) => {
@@ -14,6 +20,10 @@ export const login = async ({ email, password }: LoginProps) => {
 	}, {
 		withCredentials: true
 	})
+}
+
+export const logout = async () => {
+	return axios.delete(`${BASE_URL}/logout`);
 }
 
 export const signup = async ({ username, email, password }: SignupProps) => {
