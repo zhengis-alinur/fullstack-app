@@ -15,7 +15,7 @@ function Home() {
 
     return (
         <Container
-            className="d-flex justify-content-center align-items-center"
+            className="d-flex justify-content-center align-items-start"
             style={{ minHeight: "100vh" }}
         >
             <Table users={users} />

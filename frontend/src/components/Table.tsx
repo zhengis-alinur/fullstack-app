@@ -43,13 +43,13 @@ const View = ({ users }: Props) => {
         }
     };
     return (
-        <Container className="d-flex flex-column justify-content-center align-items-center">
+        <Container className="d-flex flex-column">
             <Toolbar
                 onDelete={handleDelete}
                 onBlock={handleBlock}
                 onUnblock={handleUnblock}
             />
-            <Table responsive striped bordered>
+            <Table striped bordered hover responsive>
                 <thead>
                     <tr>
                         <th>

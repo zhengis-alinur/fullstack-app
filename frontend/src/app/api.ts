@@ -33,7 +33,7 @@ export const signup = async ({ username, email, password }: SignupProps) => {
 
 
 export const deleteUsers = async (userIds: string[]) => {
-	return axios.delete(`${BASE_URL}/user/delete`, {
+	return axios.delete(`${BASE_URL}/users`, {
 		...getRequestConfig(),
 		params: {
 			userIds
@@ -42,13 +42,13 @@ export const deleteUsers = async (userIds: string[]) => {
 }
 
 export const blockUsers = async (userIds: string[]) => {
-	return axios.post(`${BASE_URL}/user/status`, {
+	return axios.post(`${BASE_URL}/users`, {
 		userIds, status: 0
 	}, getRequestConfig())
 }
 
 export const unblockUsers = async (userIds: string[]) => {
-	return axios.post(`${BASE_URL}/user/status`, {
+	return axios.post(`${BASE_URL}/users`, {
 		userIds, status: 1
 	}, getRequestConfig())
 }
