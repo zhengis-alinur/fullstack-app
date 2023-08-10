@@ -15,10 +15,10 @@ const Login = () => {
 
     return (
         <Container
-            className="d-flex flex-column justify-content-center align-items-center g-10"
+            className="d-flex flex-column justify-content-start align-items-center"
             style={{ minHeight: "100vh" }}
         >
-            <h1>Login Page</h1>
+            <h1 className="m-5">Login Page</h1>
             <LoginForm />
         </Container>
     );

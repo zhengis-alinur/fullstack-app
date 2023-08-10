@@ -1,12 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCookie } from '../../utils';
+import { User } from '../../types';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: {
 	isAuthenticated: boolean,
-	success: boolean
+	success: boolean,
+	user: User;
 } = {
 	isAuthenticated: sessionStorage.getItem('token') ? true : false,
 	success: false,
+	user: {
+		_id: "",
+		email: "",
+		username: "",
+		lastLogin: "",
+		createdAt: "",
+		password: "",
+		status: true
+	}
 };
 
 const authSlice = createSlice({
@@ -22,9 +33,12 @@ const authSlice = createSlice({
 		},
 		loginSuccess: (state) => {
 			state.success = true
+		},
+		setUser: (state, action: PayloadAction<User>) => {
+			state.user = action.payload
 		}
 	},
 });
 
-export const { login, logout, loginSuccess } = authSlice.actions;
+export const { login, logout, loginSuccess, setUser } = authSlice.actions;
 export default authSlice.reducer;

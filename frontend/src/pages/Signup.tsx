@@ -15,10 +15,10 @@ const Signup = () => {
 
     return (
         <Container
-            className="d-flex flex-column justify-content-center align-items-center g-10"
+            className="d-flex flex-column justify-content-start align-items-center g-10"
             style={{ minHeight: "100vh" }}
         >
-            <h1>Signup Page</h1>
+            <h1 className="m-5">Signup Page</h1>
             <SignupForm />
         </Container>
     );

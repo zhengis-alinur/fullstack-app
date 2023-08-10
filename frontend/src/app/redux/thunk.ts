@@ -1,5 +1,5 @@
 import { setUsers } from './reducers/usersSlice';
-import { login, loginSuccess, logout } from './reducers/authSlice';
+import { login, loginSuccess, logout, setUser } from './reducers/authSlice';
 import { AppDispatch } from './store';
 import { LoginProps, SignupProps } from '../types';
 import { fetchUsers as fetchUsersAPI, signup as signupAPI, deleteUsers as deleteUsersAPI, login as loginAPI, blockUsers as blockUserAPI, unblockUsers as unblockUserAPI, logout as logoutAPI } from '../api';
@@ -27,6 +27,7 @@ export const authenticate = (credentials: LoginProps) => async (dispatch: AppDis
 		sessionStorage.setItem('token', data.token)
 		dispatch(login());
 		dispatch(loginSuccess())
+		dispatch(setUser(data.user));
 	}).catch((error) => {
 		alert(error.response.data.message);
 	})
