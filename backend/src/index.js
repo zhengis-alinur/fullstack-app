@@ -8,6 +8,8 @@ const authRoute = require("./routes/AuthRoute");
 const userRoute = require("./routes/UserRoute");
 const usersRoute = require("./routes/UsersRoute");
 
+app.use(cookieParser());
+
 app.use(
     cors({
         origin: ["https://itransition-task-4-frontend.onrender.com"],
@@ -15,9 +17,6 @@ app.use(
         credentials: true,
     })
 );
-
-app.use(cookieParser());
-
 app.use(express.json());
 
 app.use("/", authRoute);

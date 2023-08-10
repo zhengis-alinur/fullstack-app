@@ -23,7 +23,8 @@ export const signup = ({ username, email, password }: SignupProps) => async (dis
 };
 
 export const authenticate = (credentials: LoginProps) => async (dispatch: AppDispatch) => {
-	loginAPI(credentials).then(() => {
+	loginAPI(credentials).then(({ data }) => {
+		sessionStorage.setItem('token', data.token)
 		dispatch(login());
 		dispatch(loginSuccess())
 	}).catch((error) => {

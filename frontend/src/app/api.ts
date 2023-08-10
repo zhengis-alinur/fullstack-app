@@ -1,15 +1,13 @@
 import axios from "axios";
 import { LoginProps, SignupProps } from "./types";
-import { getCookie } from "./utils";
 
 const BASE_URL = "https://itransition-task-4-zzps.onrender.com"
 
 const getRequestConfig = () => ({
 	headers: {
 		'Content-Type': 'application/json',
-		Authorization: `Bearer ${getCookie('token')}`
-	},
-	withCredentials: true
+		Authorization: `Bearer ${sessionStorage.getItem('token')}`
+	}
 })
 
 
@@ -20,7 +18,7 @@ export const fetchUsers = async () => {
 export const login = async ({ email, password }: LoginProps) => {
 	return axios.post(`${BASE_URL}/login`, {
 		email, password
-	}, getRequestConfig())
+	})
 }
 
 export const logout = async () => {
@@ -30,7 +28,7 @@ export const logout = async () => {
 export const signup = async ({ username, email, password }: SignupProps) => {
 	return await axios.post(`${BASE_URL}/signup`, {
 		username, email, password
-	}, getRequestConfig())
+	})
 }
 
 

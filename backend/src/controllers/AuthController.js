@@ -19,13 +19,10 @@ const Signup = async (req, res) => {
         });
 
         const token = createSecretToken(user._id);
-        res.cookie("token", token, {
-            httpOnly: false,
-        });
-
         res.status(201).json({
             message: "User signed up successfully",
             user,
+            token,
         });
     } catch (error) {
         console.error(error);
@@ -44,25 +41,20 @@ const Login = async (req, res) => {
         }
 
         const user = await User.findOne({ email });
-
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res
                 .status(401)
                 .json({ message: "Incorrect email or password" });
         }
-
         if (!user.status) {
             return res.status(403).json({ message: "User is blocked" });
         }
 
         await User.updateOne({ email }, { lastLogin: new Date() });
         const token = createSecretToken(user._id);
-        res.cookie("token", token, {
-            httpOnly: false,
-        });
-
         res.status(200).json({
             message: "User logged in successfully",
+            token,
         });
     } catch (error) {
         console.error(error);

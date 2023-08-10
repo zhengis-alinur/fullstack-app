@@ -5,7 +5,7 @@ const initialState: {
 	isAuthenticated: boolean,
 	success: boolean
 } = {
-	isAuthenticated: getCookie('token') ? true : false,
+	isAuthenticated: sessionStorage.getItem('token') ? true : false,
 	success: false,
 };
 
