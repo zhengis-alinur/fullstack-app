@@ -3,9 +3,10 @@ import { useAppDispatch, useAppSelector } from "../app/redux/hooks";
 import { fetchUsers } from "../app/redux/thunk";
 import { Container } from "react-bootstrap";
 import Table from "../components/Table";
+import { selectUsers } from "../app/selectors";
 
 function Home() {
-    const users = useAppSelector((state) => state.users.users);
+    const users = useAppSelector(selectUsers);
     const dispatch = useAppDispatch();
 
     useEffect(() => {

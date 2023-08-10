@@ -4,22 +4,23 @@ import { getCookie } from "./utils";
 
 const BASE_URL = "http://localhost:4000"
 
+const getRequestConfig = () => ({
+	headers: {
+		'Content-Type': 'application/json',
+		Authorization: `Bearer ${getCookie('token')}`
+	},
+	withCredentials: true
+})
+
+
 export const fetchUsers = async () => {
-	return axios.get(`${BASE_URL}/users`, {
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${getCookie('token')}`
-		},
-		withCredentials: true
-	});
+	return axios.get(`${BASE_URL}/users`, getRequestConfig());
 };
 
 export const login = async ({ email, password }: LoginProps) => {
 	return axios.post(`${BASE_URL}/login`, {
 		email, password
-	}, {
-		withCredentials: true
-	})
+	}, getRequestConfig())
 }
 
 export const logout = async () => {
@@ -29,18 +30,13 @@ export const logout = async () => {
 export const signup = async ({ username, email, password }: SignupProps) => {
 	return await axios.post(`${BASE_URL}/signup`, {
 		username, email, password
-	}, {
-		withCredentials: true
-	})
+	}, getRequestConfig())
 }
 
 
 export const deleteUsers = async (userIds: string[]) => {
 	return axios.delete(`${BASE_URL}/user/delete`, {
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${getCookie('token')}`
-		},
+		...getRequestConfig(),
 		params: {
 			userIds
 		}
@@ -50,21 +46,11 @@ export const deleteUsers = async (userIds: string[]) => {
 export const blockUsers = async (userIds: string[]) => {
 	return axios.post(`${BASE_URL}/user/status`, {
 		userIds, status: 0
-	}, {
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${getCookie('token')}`,
-		},
-	})
+	}, getRequestConfig())
 }
 
 export const unblockUsers = async (userIds: string[]) => {
 	return axios.post(`${BASE_URL}/user/status`, {
 		userIds, status: 1
-	}, {
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${getCookie('token')}`,
-		},
-	})
+	}, getRequestConfig())
 }

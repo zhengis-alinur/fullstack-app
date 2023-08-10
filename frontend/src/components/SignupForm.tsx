@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button, Stack } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../app/redux/hooks";
-import { authenticate, signup } from "../app/redux/thunk";
+import { useAppDispatch } from "../app/redux/hooks";
+import { signup } from "../app/redux/thunk";
 import { useNavigate } from "react-router-dom";
 
 const SignupForm: React.FC = () => {
@@ -11,26 +11,18 @@ const SignupForm: React.FC = () => {
         password: string;
     }>({ username: "", email: "", password: "" });
 
-    const successLogin = useAppSelector((state) => state.auth.success);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (successLogin) navigate("/");
-    });
-
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const target = e.target.id;
-        setFormState({ ...formState, [target]: e.target.value });
+        setFormState({ ...formState, [e.target.id]: e.target.value });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(
             signup({
-                username: formState.username,
-                email: formState.email,
-                password: formState.password,
+                ...formState,
             })
         );
     };

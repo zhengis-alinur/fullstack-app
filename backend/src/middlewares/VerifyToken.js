@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/UserModel");
+const { getToken } = require("../util/getToken");
 
 module.exports = async (req, res, next) => {
     try {
-        const token = req.headers.authorization?.split(" ")[1];
+        const token = getToken(req);
         if (!token) {
             return res.status(401).json({ error: "Authentication failed!" });
         }
@@ -13,7 +14,7 @@ module.exports = async (req, res, next) => {
 
         if (!user) {
             return res.status(401).json({
-                error: "You are may be deleted or expired jwt-token!",
+                error: "User is deleted or jwt-token is expired!",
             });
         }
 
@@ -22,6 +23,8 @@ module.exports = async (req, res, next) => {
         }
         next();
     } catch (err) {
-        return res.status(400).json({ error: "Invalid token!" });
+        return res
+            .status(401)
+            .json({ error: "Invalid token or token is expired!" });
     }
 };

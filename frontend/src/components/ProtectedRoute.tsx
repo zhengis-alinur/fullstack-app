@@ -1,15 +1,14 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../app/redux/hooks";
+import { selectIsAuthenticated } from "../app/selectors";
 
 interface ProtectedRouteProps {
     element: React.ReactElement;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
-    const isAuthenticated = useAppSelector(
-        (state) => state.auth.isAuthenticated
-    );
+    const isAuthenticated = useAppSelector(selectIsAuthenticated);
     if (isAuthenticated) {
         return element;
     } else {
