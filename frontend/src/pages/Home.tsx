@@ -1,31 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/redux/hooks";
 import { fetchUsers } from "../app/redux/thunk";
+import { logout } from "../app/redux/reducers/authSlice";
+import { Container } from "react-bootstrap";
+import Table from "../components/Table";
 
 function Home() {
     const users = useAppSelector((state) => state.users.users);
     const dispatch = useAppDispatch();
 
-    const handleClick = () => {
+    useEffect(() => {
         dispatch(fetchUsers());
-    };
+    }, [dispatch]);
 
     return (
-        <div className="App">
-            <h1>Hello world</h1>
-            <button
-                onClick={() => {
-                    handleClick();
-                }}
-            >
-                Load
-            </button>
-            <div>
-                {users.map((user) => (
-                    <h1>{user.username}</h1>
-                ))}
-            </div>
-        </div>
+        <Container
+            className="d-flex justify-content-center align-items-center"
+            style={{ minHeight: "100vh" }}
+        >
+            <Table users={users} />
+        </Container>
     );
 }
 

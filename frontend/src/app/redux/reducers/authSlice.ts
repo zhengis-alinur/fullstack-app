@@ -1,9 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getCookie } from '../../utils';
 
 const initialState: {
-	isAuthenticated: boolean
+	isAuthenticated: boolean,
+	success: boolean
 } = {
-	isAuthenticated: false,
+	isAuthenticated: getCookie('token') ? true : false,
+	success: false,
 };
 
 const authSlice = createSlice({
@@ -15,9 +18,13 @@ const authSlice = createSlice({
 		},
 		logout: (state) => {
 			state.isAuthenticated = false;
+			state.success = false;
 		},
+		loginSuccess: (state) => {
+			state.success = true
+		}
 	},
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, loginSuccess } = authSlice.actions;
 export default authSlice.reducer;

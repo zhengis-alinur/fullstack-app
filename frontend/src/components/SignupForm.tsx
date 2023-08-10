@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Stack } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../app/redux/hooks";
-import { authenticate } from "../app/redux/thunk";
+import { authenticate, signup } from "../app/redux/thunk";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm: React.FC = () => {
+const SignupForm: React.FC = () => {
+    const [formState, setFormState] = useState<{
+        username: string;
+        email: string;
+        password: string;
+    }>({ username: "", email: "", password: "" });
+
+    const successLogin = useAppSelector((state) => state.auth.success);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const successLogin = useAppSelector((state) => state.auth.success);
 
     useEffect(() => {
         if (successLogin) navigate("/");
     });
-
-    const [formState, setFormState] = useState<{
-        email: string;
-        password: string;
-    }>({ email: "", password: "" });
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const target = e.target.id;
@@ -26,7 +27,8 @@ const LoginForm: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(
-            authenticate({
+            signup({
+                username: formState.username,
                 email: formState.email,
                 password: formState.password,
             })
@@ -36,6 +38,16 @@ const LoginForm: React.FC = () => {
     return (
         <Form onSubmit={handleSubmit}>
             <Stack className="" gap={3}>
+                <Form.Group controlId="username">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter username"
+                        value={formState.username}
+                        onChange={handleFormChange}
+                        required
+                    />
+                </Form.Group>
                 <Form.Group controlId="email">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control
@@ -46,7 +58,6 @@ const LoginForm: React.FC = () => {
                         required
                     />
                 </Form.Group>
-
                 <Form.Group controlId="password">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
@@ -59,18 +70,18 @@ const LoginForm: React.FC = () => {
                 </Form.Group>
 
                 <Button variant="primary" type="submit">
-                    Log In
+                    Sign up
                 </Button>
                 <Button
                     variant="secondary"
                     type="button"
-                    onClick={() => navigate("/signup")}
+                    onClick={() => navigate("/login")}
                 >
-                    Sign up
+                    Login
                 </Button>
             </Stack>
         </Form>
     );
 };
 
-export default LoginForm;
+export default SignupForm;

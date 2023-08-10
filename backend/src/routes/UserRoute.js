@@ -4,7 +4,7 @@ const router = require("express").Router();
 
 router.use(verification);
 
-router.put("/status", Status);
+router.post("/status", Status);
 router.delete("/delete", Delete);
 
 module.exports = router;

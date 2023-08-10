@@ -12,14 +12,14 @@ module.exports = async (req, res, next) => {
         const user = await User.findById(verified.id);
 
         if (!user) {
-            return res.status(401).json({ error: "User not found!" });
+            return res.status(401).json({
+                error: "You are may be deleted or expired jwt-token!",
+            });
         }
 
         if (!user.status) {
             return res.status(403).json({ error: "User account is inactive" });
         }
-
-        req.user = verified;
         next();
     } catch (err) {
         return res.status(400).json({ error: "Invalid token!" });
