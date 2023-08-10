@@ -2,7 +2,7 @@ import axios from "axios";
 import { LoginProps, SignupProps } from "./types";
 import { getCookie } from "./utils";
 
-const BASE_URL = "http://localhost:4000"
+const BASE_URL = "https://itransition-task-4-zzps.onrender.com"
 
 const getRequestConfig = () => ({
 	headers: {
