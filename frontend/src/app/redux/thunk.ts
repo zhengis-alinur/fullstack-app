@@ -4,21 +4,22 @@ import { AppDispatch } from './store';
 import { LoginProps, SignupProps } from '../types';
 import { fetchUsers as fetchUsersAPI, signup as signupAPI, deleteUsers as deleteUsersAPI, login as loginAPI, blockUsers as blockUserAPI, unblockUsers as unblockUserAPI, logout as logoutAPI } from '../api';
 import { AxiosError } from 'axios';
+import { showModal } from './reducers/modalSlice';
 
 const unAuthRequestHandle = ({ response }: AxiosError & {
-	response: { data: { error: string } }
+	response: { data: { message: string } }
 }, dispatch: AppDispatch) => {
 	if (response && (response.status === 403 || response.status === 401)) {
 		dispatch(unauthenticate());
-		console.error(response.data.error);
+		dispatch(showModal(response.data.message));
 	}
 }
 
 export const signup = ({ username, email, password }: SignupProps) => async (dispatch: AppDispatch) => {
 	signupAPI({ username, email, password }).then(({ data }) => {
-		alert(data.message);
-	}).catch((error) => {
-		alert(error.response.data.message);
+		dispatch(showModal(data.message));
+	}).catch(({ response }) => {
+		dispatch(showModal(response.data.message));
 	})
 };
 
@@ -28,16 +29,16 @@ export const authenticate = (credentials: LoginProps) => async (dispatch: AppDis
 		sessionStorage.setItem('user', JSON.stringify(data.user));
 		dispatch(login());
 		dispatch(updateUser());
-	}).catch((error) => {
-		alert(error);
+	}).catch(({ response }) => {
+		dispatch(showModal(response.data.message));
 	})
 };
 
 export const unauthenticate = () => async (dispatch: AppDispatch) => {
 	logoutAPI().then(() => {
 		dispatch(logout());
-	}).catch((error) => {
-		alert(error.response.data.message);
+	}).catch(({ response }) => {
+		dispatch(showModal(response.data.message));
 	})
 };
 

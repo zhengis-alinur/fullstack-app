@@ -9,7 +9,7 @@ module.exports.GetUsers = async (req, res, next) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
@@ -19,13 +19,13 @@ module.exports.Status = async (req, res, next) => {
 
         userIds.forEach(async (id) => {
             if (!id | !isValidObjectId(id)) {
-                return res.status(400).json({ error: "Missing user ID" });
+                return res.status(400).json({ message: "Missing user ID" });
             }
 
             await User.findByIdAndUpdate(id, { status }).catch((error) => {
                 return res
                     .status(400)
-                    .json({ error: "Failed to update status" });
+                    .json({ message: "Failed to update status" });
             });
         });
 
@@ -35,7 +35,7 @@ module.exports.Status = async (req, res, next) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
@@ -46,19 +46,19 @@ module.exports.Delete = (req, res, next) => {
             if (!id || !isValidObjectId(id)) {
                 return res
                     .status(400)
-                    .json({ error: "Missing user ID or not valid id" });
+                    .json({ message: "Missing user ID or not valid id" });
             }
             const deletedUser = await User.findByIdAndDelete(id).catch(
                 (error) => {
                     console.error(error);
                     return res
                         .status(400)
-                        .json({ error: "Failed to delete user" });
+                        .json({ message: "Failed to delete user" });
                 }
             );
 
             if (!deletedUser) {
-                return res.status(404).json({ error: "User not found" });
+                return res.status(404).json({ message: "User not found" });
             }
         });
 
@@ -68,6 +68,6 @@ module.exports.Delete = (req, res, next) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 };

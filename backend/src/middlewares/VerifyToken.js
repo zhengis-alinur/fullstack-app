@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     try {
         const token = getToken(req);
         if (!token) {
-            return res.status(401).json({ error: "Authentication failed!" });
+            return res.status(401).json({ message: "Authentication failed!" });
         }
 
         const verified = jwt.verify(token, process.env.TOKEN_KEY);
@@ -14,17 +14,17 @@ module.exports = async (req, res, next) => {
 
         if (!user) {
             return res.status(401).json({
-                error: "User is deleted or jwt-token is expired!",
+                message: "User is deleted or jwt-token is expired!",
             });
         }
 
         if (!user.status) {
-            return res.status(403).json({ error: "User account is blocked" });
+            return res.status(403).json({ message: "User account is blocked" });
         }
         next();
     } catch (err) {
         return res
             .status(401)
-            .json({ error: "Invalid token or token is expired!" });
+            .json({ message: "Invalid token or token is expired!" });
     }
 };
