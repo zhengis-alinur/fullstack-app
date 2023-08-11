@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button, Stack } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../app/redux/hooks";
+import { useAppDispatch } from "../app/redux/hooks";
 import { authenticate } from "../app/redux/thunk";
 import { useNavigate } from "react-router-dom";
-import { selectSuccessLogin } from "../app/selectors";
 
 const LoginForm: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const successLogin = useAppSelector(selectSuccessLogin);
-
-    useEffect(() => {
-        if (successLogin) navigate("/");
-    });
 
     const [formState, setFormState] = useState<{
         email: string;

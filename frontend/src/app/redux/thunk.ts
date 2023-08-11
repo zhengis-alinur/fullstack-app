@@ -1,5 +1,5 @@
 import { setUsers } from './reducers/usersSlice';
-import { login, loginSuccess, logout, setUser } from './reducers/authSlice';
+import { login, logout, updateUser } from './reducers/authSlice';
 import { AppDispatch } from './store';
 import { LoginProps, SignupProps } from '../types';
 import { fetchUsers as fetchUsersAPI, signup as signupAPI, deleteUsers as deleteUsersAPI, login as loginAPI, blockUsers as blockUserAPI, unblockUsers as unblockUserAPI, logout as logoutAPI } from '../api';
@@ -15,8 +15,8 @@ const unAuthRequestHandle = ({ response }: AxiosError & {
 }
 
 export const signup = ({ username, email, password }: SignupProps) => async (dispatch: AppDispatch) => {
-	signupAPI({ username, email, password }).then(() => {
-		dispatch(authenticate({ email, password }));
+	signupAPI({ username, email, password }).then(({ data }) => {
+		alert(data.message);
 	}).catch((error) => {
 		alert(error.response.data.message);
 	})
@@ -25,11 +25,11 @@ export const signup = ({ username, email, password }: SignupProps) => async (dis
 export const authenticate = (credentials: LoginProps) => async (dispatch: AppDispatch) => {
 	loginAPI(credentials).then(({ data }) => {
 		sessionStorage.setItem('token', data.token)
+		sessionStorage.setItem('user', JSON.stringify(data.user));
 		dispatch(login());
-		dispatch(loginSuccess())
-		dispatch(setUser(data.user));
+		dispatch(updateUser());
 	}).catch((error) => {
-		alert(error.response.data.message);
+		alert(error);
 	})
 };
 

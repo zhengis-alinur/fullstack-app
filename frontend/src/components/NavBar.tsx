@@ -2,27 +2,24 @@ import React from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../app/redux/hooks";
 import { unauthenticate } from "../app/redux/thunk";
-import {
-    selectIsAuthenticated,
-    selectSuccessLogin,
-    selectUser,
-} from "../app/selectors";
+import { selectIsAuthenticated, selectUser } from "../app/selectors";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
     const isAuthenticated = useAppSelector(selectIsAuthenticated);
-    const loginSuccess = useAppSelector(selectSuccessLogin);
     const user = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
             <Container>
-                <Navbar.Brand href="/">
-                    {isAuthenticated && loginSuccess ? (
+                <Navbar.Brand>
+                    {isAuthenticated ? (
                         <p>
                             User:&nbsp;
-                            <span className="fw-bold">{user.username}</span>
+                            <span className="fw-bold">{user?.username}</span>
                             &nbsp;
-                            {user.email}
+                            {user?.email}
                         </p>
                     ) : (
                         "Fullstack-app"
@@ -35,8 +32,14 @@ const NavBar = () => {
                     style={{ width: "100vw" }}
                 >
                     <Nav className="me-auto"></Nav>
-                    {isAuthenticated && loginSuccess ? (
+                    {isAuthenticated ? (
                         <Nav>
+                            <Nav.Link
+                                eventKey={2}
+                                onClick={() => navigate("/")}
+                            >
+                                Go as {user?.email}
+                            </Nav.Link>
                             <Nav.Link
                                 eventKey={2}
                                 onClick={() => dispatch(unauthenticate())}
@@ -46,8 +49,13 @@ const NavBar = () => {
                         </Nav>
                     ) : (
                         <Nav>
-                            <Nav.Link href="/signup">Sign up</Nav.Link>
-                            <Nav.Link eventKey={2} href="/login">
+                            <Nav.Link onClick={() => navigate("/signup")}>
+                                Sign up
+                            </Nav.Link>
+                            <Nav.Link
+                                eventKey={2}
+                                onClick={() => navigate("/login")}
+                            >
                                 Login
                             </Nav.Link>
                         </Nav>
